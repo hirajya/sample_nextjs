@@ -1,17 +1,15 @@
-"use client";
+// "use client";
 
 import Image from "next/image";
 import styles from "./contact.module.css";
 // import HydrationTest from "@/components/hydrationTest";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 
 // const HydrationTestNoSSR = dynamic(() => import("@/components/hydrationTest"), { ssr: false });
 
 
 const ContactPage = () => {
-  const a = Math.random();
-  console.log(a);
-  
+
   return (
     <div className={styles.container}>
       <div className={styles.imgContainer}>
@@ -19,7 +17,7 @@ const ContactPage = () => {
       </div>
       <div className={styles.formContainer}>
         {/* <HydrationTestNoSSR /> */}
-        <div suppressHydrationWarning>{a}</div>
+        {/* <div suppressHydrationWarning>{a}</div> */}
         <form action="" className={styles.form}>
           <input type="text" placeholder="Name and Surname" />
           <input type="text" placeholder="Email Address" />

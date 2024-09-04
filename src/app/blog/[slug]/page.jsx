@@ -1,33 +1,60 @@
 import Image from "next/image";
 import styles from "./singlePostPage.module.css";
+import PostUser from "@/components/postUser/postUser";
+import { Suspense } from "react";
+import { getPost } from "@/lib/data";
 
-const SinglePostPage = () => {
+// FETCH DATA WITH AN API
+// const getData = async (slug) => {
+//   const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${slug}`);
+
+//   if (!res.ok) {
+//     throw new Error("Something went wrong");
+//   }
+//   return res.json();
+// };
+
+const SinglePostPage = async ({ params }) => {
+  const { slug } = params;
+
+  // FETCH DATA WITH AN API
+  // const post = await getData(slug);
+
+  // FETCH DATA WITHOUT AN API
+  const post = await getPost(slug);
+
   return (
     <div className={styles.container}>
       <div className={styles.imgContainer}>
-        <Image src="/post_sample.jpg" alt="Post Image" fill className={styles.img} />
+        <Image
+          src="/post_sample.jpg"
+          alt="Post Image"
+          fill
+          className={styles.img}
+        />
       </div>
       <div className={styles.textContainer}>
-        <h1 className={styles.title}>Title</h1>
+        <h1 className={styles.title}>{post?.title}</h1>
         <div className={styles.authorInfo}>
-          <Image src="/avatar.jpg" alt="Author Image" width={100} height={100} className={styles.authorImg} />
-          <div className={styles.infoContainer}>
-            <span className={styles.authorText}>Author</span>
-            <span className={styles.authorName}>Rodney Lei Estrada</span>
-          </div>
+          <Image
+            src="/avatar.jpg"
+            alt="Author Image"
+            width={100}
+            height={100}
+            className={styles.authorImg}
+          />
+          {post && (
+            <Suspense fallback={<div>Loading...</div>}>
+              <PostUser userId={post.userId} />
+            </Suspense>
+          )}
+
           <div className={styles.infoContainer}>
             <span className={styles.publishedText}>Published</span>
             <span className={styles.publishedDate}>09.25.2003</span>
           </div>
         </div>
-        <p className={styles.desc}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-          ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur.
-        </p>
+        <p className={styles.desc}>{post.body}</p>
       </div>
     </div>
   );
